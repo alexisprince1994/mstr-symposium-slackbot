@@ -1,0 +1,85 @@
+{
+  "id": "77A2B96C11E8B223269B0080EF05AAE9",
+  "name": "Slackbot - One Attribute No Metrics",
+  "instanceId": "A3CEDF4811E8B22335F20080EF45A919",
+  "result": {
+    "definition": {
+      "attributes": [
+        {
+          "name": "Category",
+          "id": "8D679D3711D3E4981000E787EC6DE8A4",
+          "type": "Attribute",
+          "forms": [
+            {
+              "id": "CCFBE2A5EADB4F50941FB879CCF1721C",
+              "name": "DESC",
+              "dataType": "Char"
+            }
+          ]
+        }
+      ],
+      "metrics": [],
+      "thresholds": [],
+      "sorting": []
+    },
+    "data": {
+      "paging": {
+        "total": 4,
+        "current": 4,
+        "offset": 0,
+        "limit": 100,
+        "prev": null,
+        "next": null
+      },
+      "root": {
+        "isPartial": false,
+        "children": [
+          {
+            "depth": 0,
+            "element": {
+              "attributeIndex": 0,
+              "formValues": {
+                "DESC": "Books"
+              },
+              "name": "Books",
+              "id": "h1;8D679D3711D3E4981000E787EC6DE8A4"
+            }
+          },
+          {
+            "depth": 0,
+            "element": {
+              "attributeIndex": 0,
+              "formValues": {
+                "DESC": "Electronics"
+              },
+              "name": "Electronics",
+              "id": "h2;8D679D3711D3E4981000E787EC6DE8A4"
+            }
+          },
+          {
+            "depth": 0,
+            "element": {
+              "attributeIndex": 0,
+              "formValues": {
+                "DESC": "Movies"
+              },
+              "name": "Movies",
+              "id": "h3;8D679D3711D3E4981000E787EC6DE8A4"
+            }
+          },
+          {
+            "depth": 0,
+            "element": {
+              "attributeIndex": 0,
+              "formValues": {
+                "DESC": "Music"
+              },
+              "name": "Music",
+              "id": "h4;8D679D3711D3E4981000E787EC6DE8A4"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

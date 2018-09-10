@@ -1,0 +1,100 @@
+{
+    "text": "Product Pricing Approval Form",
+    "channel": "C061EG9SL",
+    "attachments": [
+		{
+			"title": "X,XXX units of YY,YYY product requested on 8/22/2018",
+			"text": "my request reason goes here"
+		},
+		{
+			"title": "Product Volume Analysis for Widget1",
+			"text": "How much volume in units are we selling monthly",
+			"fields": [
+				{
+					"title": "Avg Units Last 365",
+					"value": 125,
+					"short": "true"
+				},
+				{
+					"title": "Stdev Units Last 365",
+					"value": 8.2,
+					"short": "true"
+				}
+			]
+		},
+		{
+			"title": "Price Delta Analysis",
+			"text": "Difference between selling line price and requested",
+			"fields": [
+				{
+					"title": "Current Price",
+					"value": 30,
+					"short": "true"
+				},
+				{
+					"title": "Proposed Price",
+					"value": 25,
+					"short": "true"
+				}, 
+				{
+					"title": "Current Margin",
+					"value": "70%",
+					"short": "true"
+				},
+				{
+					"title": "Proposed Margin",
+					"value": "50%",
+					"short": "true"
+				}, 
+				{
+					"title": "Current Gross Profit",
+					"value": "$21,000", 
+					"short": "true"
+				},
+				{
+					"title": "Proposed Gross Profit",
+					"value": "$17,500",
+					"short": "true"
+				}
+			]
+		},
+		{
+			"title": "Customer Sales Summary",
+			"text": "Summary of customers business for the last year.",
+			"fields": [
+				{
+					"title": "Customer Sales Rank (Overall)",
+					"value": 1,
+					"short": "true"
+				},
+				{
+					"title": "Customer Sales Rank (Regional)",
+					"value": 1,
+					"short": "true"
+				}
+			]
+		},
+        {
+            "fallback": "Book your flights at https://flights.example.com/book/r123456",
+            "actions": [
+                {
+                    "type": "button",
+                    "name": "travel_request_123456",
+                    "text": "Approve",
+                    "style": "primary",
+                },
+                {
+                    "type": "button",
+                    "name": "travel_cancel_123456",
+                    "text": "Deny",
+                    "style": "danger"
+                },
+				{
+					"type": "button",
+					"name": "my_button",
+					"text": "Review Later"
+				}
+            ]
+        }
+    ]
+}

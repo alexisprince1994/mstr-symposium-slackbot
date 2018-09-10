@@ -1,0 +1,502 @@
+{
+   "id":"772AB904445FB6AD8BC6CD8F26130049",
+   "name":"Inventory Summary - BOH, EOH, Units Received, and Units Sold",
+   "instanceId":"F2AADFEA11E895EA50760080EF450F5F",
+   "result":{
+      "definition":{
+         "attributes":[
+            {
+               "name":"Month",
+               "id":"8D679D4411D3E4981000E787EC6DE8A4",
+               "type":"Attribute",
+               "forms":[
+                  {
+                     "id":"CCFBE2A5EADB4F50941FB879CCF1721C",
+                     "name":"DESC",
+                     "dataType":"Char"
+                  }
+               ]
+            }
+         ],
+         "metrics":[
+            {
+               "name":"Begin on Hand",
+               "id":"49E9CF3B46C90BC785B79AAB8FA03947",
+               "type":"Metric",
+               "thresholds":[
+                  0
+               ],
+               "min":7876,
+               "max":29856,
+               "numberFormatting":{
+                  "category":0,
+                  "formatString":"#,##0;(#,##0)"
+               }
+            },
+            {
+               "name":"Units Received",
+               "id":"4C05185811D3E877C000B3B2D86C964F",
+               "type":"Metric",
+               "min":7614,
+               "max":36981,
+               "numberFormatting":{
+                  "category":0,
+                  "decimalPlaces":0,
+                  "formatString":"#,##0",
+                  "negativeType":1
+               }
+            },
+            {
+               "name":"Units Sold",
+               "id":"4C05190A11D3E877C000B3B2D86C964F",
+               "type":"Metric",
+               "min":11543,
+               "max":39035,
+               "numberFormatting":{
+                  "category":0,
+                  "decimalPlaces":0,
+                  "formatString":"#,##0",
+                  "negativeType":1
+               }
+            },
+            {
+               "name":"End on hand",
+               "id":"AFDD701411D5C3D1C000058B4CC5F24F",
+               "type":"Metric",
+               "min":5001,
+               "max":29847,
+               "numberFormatting":{
+                  "category":0,
+                  "decimalPlaces":0,
+                  "formatString":"#,##0;(#,##0)"
+               }
+            }
+         ],
+         "thresholds":[
+            {
+               "id":"49E9CF3B46C90BC785B79AAB8FA03947#0",
+               "name":"New Threshold",
+               "type":"Metric",
+               "format":{
+
+               },
+               "condition":""
+            }
+         ],
+         "sorting":[
+
+         ]
+      },
+      "data":{
+         "paging":{
+            "total":12,
+            "current":12,
+            "offset":0,
+            "limit":-1,
+            "prev":null,
+            "next":null
+         },
+         "root":{
+            "isPartial":false,
+            "children":[
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"Jan 2016"
+                     },
+                     "name":"Jan 2016",
+                     "id":"h201601;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":15694,
+                        "fv":"15,694",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":20890,
+                        "fv":"20,890",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":23543,
+                        "fv":"23,543",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":13041,
+                        "fv":"13,041",
+                        "mi":3
+                     }
+                  }
+               },
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"Feb 2016"
+                     },
+                     "name":"Feb 2016",
+                     "id":"h201602;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":13041,
+                        "fv":"13,041",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":23120,
+                        "fv":"23,120",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":23725,
+                        "fv":"23,725",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":12436,
+                        "fv":"12,436",
+                        "mi":3
+                     }
+                  }
+               },
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"Mar 2016"
+                     },
+                     "name":"Mar 2016",
+                     "id":"h201603;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":12436,
+                        "fv":"12,436",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":26840,
+                        "fv":"26,840",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":26147,
+                        "fv":"26,147",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":13129,
+                        "fv":"13,129",
+                        "mi":3
+                     }
+                  }
+               },
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"Apr 2016"
+                     },
+                     "name":"Apr 2016",
+                     "id":"h201604;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":13140,
+                        "fv":"13,140",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":27000,
+                        "fv":"27,000",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":27643,
+                        "fv":"27,643",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":12497,
+                        "fv":"12,497",
+                        "mi":3
+                     }
+                  }
+               },
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"May 2016"
+                     },
+                     "name":"May 2016",
+                     "id":"h201605;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":12527,
+                        "fv":"12,527",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":30240,
+                        "fv":"30,240",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":30467,
+                        "fv":"30,467",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":12300,
+                        "fv":"12,300",
+                        "mi":3
+                     }
+                  }
+               },
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"Jun 2016"
+                     },
+                     "name":"Jun 2016",
+                     "id":"h201606;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":12278,
+                        "fv":"12,278",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":28810,
+                        "fv":"28,810",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":27979,
+                        "fv":"27,979",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":13109,
+                        "fv":"13,109",
+                        "mi":3
+                     }
+                  }
+               },
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"Jul 2016"
+                     },
+                     "name":"Jul 2016",
+                     "id":"h201607;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":13053,
+                        "fv":"13,053",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":28830,
+                        "fv":"28,830",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":28942,
+                        "fv":"28,942",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":12941,
+                        "fv":"12,941",
+                        "mi":3
+                     }
+                  }
+               },
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"Aug 2016"
+                     },
+                     "name":"Aug 2016",
+                     "id":"h201608;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":12941,
+                        "fv":"12,941",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":28990,
+                        "fv":"28,990",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":30089,
+                        "fv":"30,089",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":11842,
+                        "fv":"11,842",
+                        "mi":3
+                     }
+                  }
+               },
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"Sep 2016"
+                     },
+                     "name":"Sep 2016",
+                     "id":"h201609;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":11842,
+                        "fv":"11,842",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":32720,
+                        "fv":"32,720",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":29917,
+                        "fv":"29,917",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":14645,
+                        "fv":"14,645",
+                        "mi":3
+                     }
+                  }
+               },
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"Oct 2016"
+                     },
+                     "name":"Oct 2016",
+                     "id":"h201610;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":14646,
+                        "fv":"14,646",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":28400,
+                        "fv":"28,400",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":33080,
+                        "fv":"33,080",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":9966,
+                        "fv":"9,966",
+                        "mi":3
+                     }
+                  }
+               },
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"Nov 2016"
+                     },
+                     "name":"Nov 2016",
+                     "id":"h201611;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":9963,
+                        "fv":"9,963",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":36840,
+                        "fv":"36,840",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":38942,
+                        "fv":"38,942",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":7861,
+                        "fv":"7,861",
+                        "mi":3
+                     }
+                  }
+               },
+               {
+                  "depth":0,
+                  "element":{
+                     "attributeIndex":0,
+                     "formValues":{
+                        "DESC":"Dec 2016"
+                     },
+                     "name":"Dec 2016",
+                     "id":"h201612;8D679D4411D3E4981000E787EC6DE8A4"
+                  },
+                  "metrics":{
+                     "Begin on Hand":{
+                        "rv":7876,
+                        "fv":"7,876",
+                        "mi":0
+                     },
+                     "Units Received":{
+                        "rv":36160,
+                        "fv":"36,160",
+                        "mi":1
+                     },
+                     "Units Sold":{
+                        "rv":39035,
+                        "fv":"39,035",
+                        "mi":2
+                     },
+                     "End on hand":{
+                        "rv":5001,
+                        "fv":"5,001",
+                        "mi":3
+                     }
+                  }
+               }
+            ]
+         }
+      }
+   }
+}

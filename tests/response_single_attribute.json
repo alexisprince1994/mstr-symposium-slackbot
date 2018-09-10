@@ -1,0 +1,276 @@
+{
+  "id": "82CBA713418C16EB6CC12BA3803A43C8",
+  "name": "Category",
+  "instanceId": "C2B7192111E880B489620080EF553367",
+  "result": {
+    "definition": {
+      "attributes": [
+        {
+          "name": "Category",
+          "id": "8D679D3711D3E4981000E787EC6DE8A4",
+          "type": "Attribute",
+          "forms": [
+            {
+              "id": "CCFBE2A5EADB4F50941FB879CCF1721C",
+              "name": "DESC",
+              "dataType": "Char"
+            }
+          ]
+        }
+      ],
+      "metrics": [
+        {
+          "name": "Revenue",
+          "id": "4C05177011D3E877C000B3B2D86C964F",
+          "type": "Metric",
+          "min": 2640094.450000177,
+          "max": 24391302.85000018,
+          "numberFormatting": {
+            "category": 1,
+            "decimalPlaces": 0,
+            "thousandSeparator": true,
+            "currencySymbol": "$",
+            "currencyPosition": 0,
+            "formatString": "\"$\"#,##0",
+            "negativeType": 1
+          }
+        },
+        {
+          "name": "Units Sold",
+          "id": "4C05190A11D3E877C000B3B2D86C964F",
+          "type": "Metric",
+          "min": 83734,
+          "max": 287517,
+          "numberFormatting": {
+            "category": 0,
+            "decimalPlaces": 0,
+            "formatString": "#,##0",
+            "negativeType": 1
+          }
+        },
+        {
+          "name": "Profit",
+          "id": "4C051DB611D3E877C000B3B2D86C964F",
+          "type": "Metric",
+          "min": 180044.0035004094,
+          "max": 4289602.797600452,
+          "numberFormatting": {
+            "category": 1,
+            "decimalPlaces": 0,
+            "thousandSeparator": true,
+            "currencySymbol": "$",
+            "currencyPosition": 0,
+            "formatString": "\"$\"#,##0;(\"$\"#,##0)",
+            "negativeType": 3
+          }
+        },
+        {
+          "name": "Cost",
+          "id": "7FD5B69611D5AC76C000D98A4CC5F24F",
+          "type": "Metric",
+          "min": 2070816.0980013341,
+          "max": 20101700.05239973,
+          "numberFormatting": {
+            "category": 1,
+            "decimalPlaces": 0,
+            "thousandSeparator": true,
+            "currencySymbol": "$",
+            "currencyPosition": 0,
+            "formatString": "\"$\"#,##0",
+            "negativeType": 1
+          }
+        },
+        {
+          "name": "Last Year's Profit",
+          "id": "838367154BDAFF3F783D0EB5CD82386A",
+          "type": "Metric",
+          "min": 180044.0035004094,
+          "max": 4289602.797600452,
+          "numberFormatting": {
+            "category": 1,
+            "decimalPlaces": 0,
+            "thousandSeparator": true,
+            "currencySymbol": "$",
+            "currencyPosition": 0,
+            "formatString": "\"$\"#,##0",
+            "negativeType": 0
+          }
+        }
+      ],
+      "thresholds": [],
+      "sorting": []
+    },
+    "data": {
+      "paging": {
+        "total": 4,
+        "current": 4,
+        "offset": 0,
+        "limit": 20,
+        "prev": null,
+        "next": null
+      },
+      "root": {
+        "isPartial": false,
+        "children": [
+          {
+            "depth": 0,
+            "element": {
+              "attributeIndex": 0,
+              "formValues": {
+                "DESC": "Books"
+              },
+              "name": "Books",
+              "id": "h1;8D679D3711D3E4981000E787EC6DE8A4"
+            },
+            "metrics": {
+              "Revenue": {
+                "rv": 2640094.450000177,
+                "fv": "$2,640,094",
+                "mi": 0
+              },
+              "Units Sold": {
+                "rv": 192668,
+                "fv": "192,668",
+                "mi": 1
+              },
+              "Profit": {
+                "rv": 569278.351998843,
+                "fv": "$569,278",
+                "mi": 2
+              },
+              "Cost": {
+                "rv": 2070816.0980013341,
+                "fv": "$2,070,816",
+                "mi": 3
+              },
+              "Last Year's Profit": {
+                "rv": 569278.351998843,
+                "fv": "$569,278",
+                "mi": 4
+              }
+            },
+            "visited": true
+          },
+          {
+            "depth": 0,
+            "element": {
+              "attributeIndex": 0,
+              "formValues": {
+                "DESC": "Electronics"
+              },
+              "name": "Electronics",
+              "id": "h2;8D679D3711D3E4981000E787EC6DE8A4"
+            },
+            "metrics": {
+              "Revenue": {
+                "rv": 24391302.85000018,
+                "fv": "$24,391,303",
+                "mi": 0
+              },
+              "Units Sold": {
+                "rv": 83734,
+                "fv": "83,734",
+                "mi": 1
+              },
+              "Profit": {
+                "rv": 4289602.797600452,
+                "fv": "$4,289,603",
+                "mi": 2
+              },
+              "Cost": {
+                "rv": 20101700.05239973,
+                "fv": "$20,101,700",
+                "mi": 3
+              },
+              "Last Year's Profit": {
+                "rv": 4289602.797600452,
+                "fv": "$4,289,603",
+                "mi": 4
+              }
+            },
+            "visited": true
+          },
+          {
+            "depth": 0,
+            "element": {
+              "attributeIndex": 0,
+              "formValues": {
+                "DESC": "Movies"
+              },
+              "name": "Movies",
+              "id": "h3;8D679D3711D3E4981000E787EC6DE8A4"
+            },
+            "metrics": {
+              "Revenue": {
+                "rv": 4098943.4500001064,
+                "fv": "$4,098,943",
+                "mi": 0
+              },
+              "Units Sold": {
+                "rv": 287517,
+                "fv": "287,517",
+                "mi": 1
+              },
+              "Profit": {
+                "rv": 254698.4765011585,
+                "fv": "$254,698",
+                "mi": 2
+              },
+              "Cost": {
+                "rv": 3844244.973498948,
+                "fv": "$3,844,245",
+                "mi": 3
+              },
+              "Last Year's Profit": {
+                "rv": 254698.4765011585,
+                "fv": "$254,698",
+                "mi": 4
+              }
+            },
+            "visited": true
+          },
+          {
+            "depth": 0,
+            "element": {
+              "attributeIndex": 0,
+              "formValues": {
+                "DESC": "Music"
+              },
+              "name": "Music",
+              "id": "h4;8D679D3711D3E4981000E787EC6DE8A4"
+            },
+            "metrics": {
+              "Revenue": {
+                "rv": 3893367.399999858,
+                "fv": "$3,893,367",
+                "mi": 0
+              },
+              "Units Sold": {
+                "rv": 283554,
+                "fv": "283,554",
+                "mi": 1
+              },
+              "Profit": {
+                "rv": 180044.0035004094,
+                "fv": "$180,044",
+                "mi": 2
+              },
+              "Cost": {
+                "rv": 3713323.3964994485,
+                "fv": "$3,713,323",
+                "mi": 3
+              },
+              "Last Year's Profit": {
+                "rv": 180044.0035004094,
+                "fv": "$180,044",
+                "mi": 4
+              }
+            },
+            "visited": true
+          }
+        ],
+        "visited": true
+      }
+    }
+  }
+}

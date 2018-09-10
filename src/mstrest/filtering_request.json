@@ -1,0 +1,29 @@
+{
+   "requestedObjects":{
+      "attributes":[
+         {
+            "id":"8D679D3711D3E4981000E787EC6DE8A4",
+            "name":"Category"
+         }
+      ]
+   },
+   "viewFilter":{
+      "operator":"Equals",
+      "operands":[
+         {
+            "type":"attribute",
+            "id":"8D679D3711D3E4981000E787EC6DE8A4",
+            "name":"Category"
+         },
+         {
+            "type":"elements",
+            "elements":[
+               {
+                  "id":"h1;8D679D3711D3E4981000E787EC6DE8A4",
+                  "name":"Books"
+               }
+            ]
+         }
+      ]
+   }
+}
