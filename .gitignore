@@ -5,3 +5,4 @@ Lib/
 Scripts/
 tcl/
 man/
+zappa_settings.json
