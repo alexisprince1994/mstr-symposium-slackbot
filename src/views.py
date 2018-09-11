@@ -92,7 +92,7 @@ def prstatus():
 		'X-SLACK-AUTH-TOKEN': current_app.config.get('SLACK_AUTH_TOKEN')
 		}, json={'action': price_request_status})
 
-	if response.status_code != 200:
+	if response.status_code != 204:
 		msg = {'text': 'Error!', 'attachments': [{'text': 
 			('Looks like an error occurred and your decision wasnt saved. ' + 
 				'The error code is {} and the message is {}'.format(
