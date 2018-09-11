@@ -5,7 +5,7 @@ import os
 # Third Party
 
 # Third Party
-from flask import jsonify, current_app
+from flask import jsonify
 import requests
 from zappa.async import task
 
@@ -16,8 +16,8 @@ from src.pyslack.slack_ui import (create_product_analysis,
 	create_customer_analysis, 
 	create_slack_price_request, create_action_buttons, SlackActionBar)
 
-@task
-def respond_to_price_request(req, pybot, msg_ts):
+
+def respond_to_price_request(req, pybot, msg_ts, current_app):
 	"""
 	TO DO:
 		REFACTOR THIS MONSTROSITY
@@ -27,11 +27,13 @@ def respond_to_price_request(req, pybot, msg_ts):
 	base_app_url = current_app.config.get('APP_URL')
 	channel_id = req.form.get('channel_id')
 
+	# Used as the error message template
 	error_msg = {'text': 'Uh oh! Looks like the app is down!',
 		'attachments': [{'text': 'Please try again later!'}]}
 
 	response = requests.get(base_app_url + '/get', headers={
 		'X-SLACK-AUTH-TOKEN': app_token})
+
 	if response.status_code != 200:
 		pybot.update_message(channel_id, msg_ts, message=error_msg,
 			user_id=req.form.get('user_id'), response_type='EPHEMERAL')
@@ -65,10 +67,10 @@ def respond_to_price_request(req, pybot, msg_ts):
 			user_id=req.form.get('user_id'), response_type='EPHEMERAL')
 		return
 
-	product_ui = build_product_report(mstr, 
+	product_ui = build_product_report(mstr, current_app,
 		price_request['price_request']['product_name'])
 	
-	customer_ui = build_customer_report(mstr, 
+	customer_ui = build_customer_report(mstr, current_app,
 		price_request['price_request']['customer_name'])
 
 	action_bar = build_slack_buttons(price_request)
@@ -121,7 +123,7 @@ def build_price_report(app_response, *, title=None, text=None):
 	return output
 
 
-def build_product_report(mstr_client, product):
+def build_product_report(mstr_client, current_app, product):
 
 	"""
 	Builds the product section of the final price request 
@@ -139,7 +141,7 @@ def build_product_report(mstr_client, product):
 		MSTR_PRODUCT_ATTRIBUTE_NAME, product, 
 		attribute_id=MSTR_PRODUCT_ATTRIBUTE_ID)
 
-	product_report = Report.from_client(report_id, mstr_client)
+	product_report = Report.from_client(MSTR_PRODUCT_REPORT_ID, mstr_client)
 	report = product_report.create(mstr_client.session, view_filter=view_filter)
 	parser = MstrParser(report.json())
 	data = [row for row in parser.parse_rows()][0]['metrics']
@@ -149,7 +151,7 @@ def build_product_report(mstr_client, product):
 	return slack_ui
 
 
-def build_customer_report(mstr_client, customer):
+def build_customer_report(mstr_client, current_app, customer):
 	"""
 	Builds the customer section of the final price request 
 	for Slack.
@@ -167,7 +169,7 @@ def build_customer_report(mstr_client, customer):
 		MSTR_CUSTOMER_ATTRIBUTE_NAME, customer, 
 		attribute_id=MSTR_CUSTOMER_ATTRIBUTE_ID)
 
-	customer_report = Report.from_client(report_id, mstr_client)
+	customer_report = Report.from_client(MSTR_CUSTOMER_REPORT_ID, mstr_client)
 	report = customer_report.create(mstr_client.session, view_filter=view_filter)
 	parser = MstrParser(report.json())
 

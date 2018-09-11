@@ -9,7 +9,6 @@ store the token.
 import os
 
 # Third Party
-from flask import current_app
 from slackclient import SlackClient
 
 # Remember which teams have authorized this app
@@ -20,21 +19,22 @@ authed_teams = {}
 
 class Bot(object):
 
-	def __init__(self):
+	def __init__(self, client_id, client_secret, verification_token,
+			slack_team_id, slack_bot_oath_token):
 		self.name = "canobot"
 		self.emoji = ":robot_face:"
 
 		# When instantiated, access the app credentials in local dev environment
 		# if I ever get around to actually exporting these things.
 		self.oauth = {
-		"client_id": current_app.config.get('CLIENT_ID'),
-		"client_secret": current_app.config.get('CLIENT_SECRET'),
+		"client_id": client_id,
+		"client_secret": client_secret,
 		# Uses the most restrictive access as possible to avoid misuse.
 		"scope": "bot"
 			}
-		self.verification = current_app.config.get('VERIFICATION_TOKEN')
-		self.team_id = current_app.config.get('SLACK_TEAM_ID')
-		self.bot_token = current_app.config.environ.get('SLACK_BOT_OATH_TOKEN')
+		self.verification = verification_token
+		self.team_id = slack_team_id
+		self.bot_token = slack_bot_oath_token
 
 		# Passing empty oath token. Will reinstantiate once we have a permanent one.
 		# Slack allows you to instantiate a SlackClient object with no token

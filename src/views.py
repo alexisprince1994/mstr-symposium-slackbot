@@ -14,8 +14,16 @@ from src.pyslack import bot
 from src.pricerequests.utils import respond_to_price_request
 from src.pyslack.dadjokemessage import DAD_JOKES, InteractiveButtonRequest
 
+# Get all the required secrets needed to operate nicely w/ Slack.
+slack_secrets = {
+	"client_id": os.environ.get('CLIENT_ID'),
+	"client_secret": os.environ.get('CLIENT_SECRET'),
+	"verification_token": os.environ.get('VERIFICATION_TOKEN'),
+	"slack_team_id": os.environ.get('SLACK_TEAM_ID'),
+	"slack_bot_oath_token": os.environ.get('SLACK_BOT_OATH_TOKEN')
+}
 
-pybot = bot.Bot()
+pybot = bot.Bot(**slack_secrets)
 slack = pybot.client
 
 slackapp = Blueprint('slackapp', __name__)
@@ -63,12 +71,18 @@ def prstatus():
 		verification_token=pybot.verification, team_id=pybot.team_id, 
 		callback_id='post_to_app')
 
+	print('status_code is {}'.format(status_code))
+	print('error_msg is {}'.format(error_msg))
+
 	# Returns a response if there was an error or the 
 	# data looks different than expected.
 	if error_msg is not None:
 		return make_response(error_msg, status_code)
 	
-	print('button_event.actions are {}'.format(button_event.actions))
+	# Actions comes back as a list (because Slack allows for 
+	# 	multi-interactive messages, but when you click a button, 
+	# 	you only interact with 1 thing.)
+
 	price_request_id = button_event.actions[0]['value']
 	price_request_status = button_event.actions[0]['name'].title()
 	post_url = current_app.config.get('APP_URL') + '/post/{}'.format(
@@ -83,7 +97,7 @@ def prstatus():
 			('Looks like an error occurred and your decision wasnt saved. ' + 
 				'The error code is {} and the message is {}'.format(
 					response.status_code, 
-					response.get_json().get('error_message')) or 
+					response.json().get('error_message')) or 
 				'Unplanned error, no message available')}]}
 
 	msg = {'text': 'Thanks!', 'attachments': [{'text': 
@@ -174,9 +188,9 @@ def listening():
 
 		msg_ts = slack_placeholder_message.get('ts')
 
-		respond_to_price_request(request, pybot, msg_ts)
+		respond_to_price_request(request, pybot, msg_ts, current_app)
 
-		return Response(), 200
+		return
 
 		# price_message = respond_to_price_request(request, pybot)
 		
