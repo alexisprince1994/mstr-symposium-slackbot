@@ -90,7 +90,7 @@ def prstatus():
 
 	response = requests.post(post_url, headers={
 		'X-SLACK-AUTH-TOKEN': current_app.config.get('SLACK_AUTH_TOKEN')
-		}, json={'action': price_request_status})
+		}, json={'action': button_event.actions[0]['name']})
 
 	if response.status_code != 204:
 		msg = {'text': 'Error!', 'attachments': [{'text': 

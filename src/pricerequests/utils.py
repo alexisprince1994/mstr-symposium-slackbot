@@ -37,7 +37,7 @@ def respond_to_price_request(req, pybot, msg_ts, current_app):
 	if response.status_code != 200:
 		pybot.update_message(channel_id, msg_ts, message=error_msg,
 			user_id=req.form.get('user_id'), response_type='EPHEMERAL')
-		return
+		return None
 
 	price_request = response.json()
 	
@@ -48,8 +48,7 @@ def respond_to_price_request(req, pybot, msg_ts, current_app):
 			price_request.get('error_message')}]}
 		pybot.update_message(channel_id, msg_ts, message=caughtup_message,
 			user_id=req.form.get('user_id'), response_type='EPHERMERAL')
-		
-	price_ui = build_price_report(price_request)
+		return None
 
 	# Initializing the Microstrategy Client
 	MSTR_PROJECT_ID = current_app.config.get('MSTR_PROJECT_ID')
@@ -67,6 +66,19 @@ def respond_to_price_request(req, pybot, msg_ts, current_app):
 			user_id=req.form.get('user_id'), response_type='EPHEMERAL')
 		return
 
+	slack_ui = build_slack_ui(mstr, current_app, price_request)
+	price_message = {'text': 'Price Request Analysis', 'attachments': slack_ui}
+
+	pybot.update_message(channel_id, msg_ts, message=price_message, 
+		response_type='CHANNEL')
+
+	mstr.logout()
+
+def build_slack_ui(mstr, current_app, price_request):
+
+	header_ui = build_header_ui(price_request['price_request'])
+	price_ui = build_price_report(price_request)
+
 	product_ui = build_product_report(mstr, current_app,
 		price_request['price_request']['product_name'])
 	
@@ -75,11 +87,21 @@ def respond_to_price_request(req, pybot, msg_ts, current_app):
 
 	action_bar = build_slack_buttons(price_request)
 
-	price_message = {'text': 'Price Request Analysis',
-			'attachments': [customer_ui, product_ui, price_ui, action_bar]}
+	return [header_ui, product_ui, customer_ui, price_ui, action_bar]
 
-	pybot.update_message(channel_id, msg_ts, message=price_message, 
-		response_type='CHANNEL')
+
+def build_header_ui(pr):
+
+	units = pr['requested_units']
+	formatted_units = format_number(units, '{:,.0f}', '-{:,.0f}')
+	product_name = pr['product_name']
+	request_date = pr['request_date']
+
+	title = '{} of {} requested on {}'.format(formatted_units, 
+		product_name, request_date)
+	request_reason = pr['request_reason'] or 'Request Reason not provided.'
+	return {'title': title, 'text': request_reason}
+
 
 
 def build_slack_buttons(app_response):
