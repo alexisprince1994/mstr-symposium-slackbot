@@ -107,7 +107,7 @@ class Bot(object):
 
 		return posted_message
 
-	def update_message(self, channel_id, ts, message, response_type):
+	def update_message(self, channel_id, ts, message):
 
 		response = self.client.api_call('chat.update',
 			token=self.bot_token,
@@ -117,7 +117,8 @@ class Bot(object):
 			text=message.get('text'),
 			ts=ts,
 			attachments=message.get('attachments'),
-			response_type=response_type)
+			response_type='CHANNEL'
+			)
 
 		return response 
 	

@@ -45,7 +45,10 @@ class DevelopmentConfig(ProductionConfig):
 	TEMPLATES_AUTO_RELOAD = True
 	SEND_FILE_MAX_AGE_DEFAULT = 0
 	SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
-	APP_TOKEN = os.environ.get('SLACK_AUTH_TOKEN') or 'MY_HARD_TO_GUESS_TOKEN_FOR_SLACK'
+
+	# Making sure requests don't fail during development/testing.
+	# Real app token gets overwritten for the production environment.
+	SLACK_AUTH_TOKEN = os.environ.get('SLACK_AUTH_TOKEN') or 'MY_HARD_TO_GUESS_SLACK_TOKEN'
 
 class SqlDebuggingConfig(DevelopmentConfig):
 

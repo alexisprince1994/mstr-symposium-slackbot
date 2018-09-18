@@ -9,6 +9,9 @@ class SlackMessage(object):
 		self.attachments = [attachment for attachment in attachments]
 
 	def add_attachments(self, *attachments):
+
+		if attachments is None:
+			raise TypeError("No attachments found to add.")
 		for attachment in attachments:
 			self.attachments.append(attachment.to_json())
 		

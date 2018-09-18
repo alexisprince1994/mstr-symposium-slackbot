@@ -1,11 +1,12 @@
 # Standard Library
 import json
+import logging
 import os
 
 # Third Party
 
 # Third Party
-from flask import jsonify
+from flask import jsonify, Response
 import requests
 from zappa.async import task
 
@@ -17,7 +18,9 @@ from src.pyslack.slack_ui import (create_product_analysis,
 	create_slack_price_request, create_action_buttons, SlackActionBar)
 
 
-def respond_to_price_request(req, pybot, msg_ts, current_app):
+logging.basicConfig(level=logging.DEBUG)
+
+def respond_to_price_request(req, pybot, msg_ts, current_app, response_url):
 	"""
 	TO DO:
 		REFACTOR THIS MONSTROSITY
@@ -35,20 +38,27 @@ def respond_to_price_request(req, pybot, msg_ts, current_app):
 		'X-SLACK-AUTH-TOKEN': app_token})
 
 	if response.status_code != 200:
-		pybot.update_message(channel_id, msg_ts, message=error_msg,
-			user_id=req.form.get('user_id'), response_type='EPHEMERAL')
+		logging.debug('Status code was not 200. Status code was {}'.format(response.status_code))
+		pybot.update_message(channel_id, msg_ts, message=error_msg)
+
 		return None
 
 	price_request = response.json()
 	
 	# If there are no more price requests
 	if price_request.get('price_request', None) is None:
+		logging.debug('No price request available.')
 		caughtup_message = {'text': 'All caught up!', 'attachments': 
 			[{'attachment_type': 'default', 'text': 
 			price_request.get('error_message')}]}
-		pybot.update_message(channel_id, msg_ts, message=caughtup_message,
-			user_id=req.form.get('user_id'), response_type='EPHERMERAL')
+
+		logging.debug('Slack bots Oauth token is {}'.format(pybot.bot_token))
+		response = pybot.update_message(channel_id, msg_ts, message=caughtup_message)
+
+		logging.debug('response from pybot.update_message due to missing a price request is {}'.format(response))
+
 		return None
+		
 
 	# Initializing the Microstrategy Client
 	MSTR_PROJECT_ID = current_app.config.get('MSTR_PROJECT_ID')
@@ -63,14 +73,14 @@ def respond_to_price_request(req, pybot, msg_ts, current_app):
 	# Indicates the MSTR Cloud instance isn't running.
 	if login_response.status_code == 503:
 		pybot.update_message(channel_id, msg_ts, message=error_msg,
-			user_id=req.form.get('user_id'), response_type='EPHEMERAL')
-		return
+			user_id=req.form.get('user_id'))
+		return None
+		
 
 	slack_ui = build_slack_ui(mstr, current_app, price_request)
 	price_message = {'text': 'Price Request Analysis', 'attachments': slack_ui}
 
-	pybot.update_message(channel_id, msg_ts, message=price_message, 
-		response_type='CHANNEL')
+	pybot.update_message(channel_id, msg_ts, message=price_message)
 
 	mstr.logout()
 
@@ -196,7 +206,7 @@ def build_customer_report(mstr_client, current_app, customer):
 	parser = MstrParser(report.json())
 
 	data = [row for row in parser.parse_rows()][0]['metrics']
-	print('rows are {}'.format(data))
+	
 	slack_ui = create_customer_analysis(overall=data['Overall Rank']['rv'],
 		regional=data['Regional Rank']['rv'])
 
@@ -212,7 +222,6 @@ def filter_mstr_for_element(mstr_client, report_id, attribute_name, element_valu
 		filter_report.get_definition(mstr_client.session)
 		for attribute in filter_report.report_definition['attributes'].values():
 			if attribute.name == attribute_name:
-				print('attribute_id is {}'.format(attribute.id))
 				attribute_id = attribute.id
 			break
 		else:

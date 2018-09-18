@@ -15,12 +15,14 @@ from src.pricerequests.utils import respond_to_price_request
 from src.pyslack.dadjokemessage import DAD_JOKES, InteractiveButtonRequest
 
 # Get all the required secrets needed to operate nicely w/ Slack.
+# I'm sure some of these aren't exactly secret, but better to keep
+# them hidden instead of publishing them.
 slack_secrets = {
 	"client_id": os.environ.get('CLIENT_ID'),
 	"client_secret": os.environ.get('CLIENT_SECRET'),
 	"verification_token": os.environ.get('VERIFICATION_TOKEN'),
 	"slack_team_id": os.environ.get('SLACK_TEAM_ID'),
-	"slack_bot_oath_token": os.environ.get('SLACK_BOT_OATH_TOKEN')
+	"slack_bot_oath_token": os.environ.get('SLACK_BOT_OAUTH_TOKEN')
 }
 
 pybot = bot.Bot(**slack_secrets)
@@ -71,9 +73,6 @@ def prstatus():
 		verification_token=pybot.verification, team_id=pybot.team_id, 
 		callback_id='post_to_app')
 
-	print('status_code is {}'.format(status_code))
-	print('error_msg is {}'.format(error_msg))
-
 	# Returns a response if there was an error or the 
 	# data looks different than expected.
 	if error_msg is not None:
@@ -92,6 +91,7 @@ def prstatus():
 		'X-SLACK-AUTH-TOKEN': current_app.config.get('SLACK_AUTH_TOKEN')
 		}, json={'action': button_event.actions[0]['name']})
 
+	# 204 indicates success and that no payload is required.
 	if response.status_code != 204:
 		msg = {'text': 'Error!', 'attachments': [{'text': 
 			('Looks like an error occurred and your decision wasnt saved. ' + 
@@ -106,7 +106,27 @@ def prstatus():
 			' The ID for this request is {}'.format(price_request_id))}]}
 	
 	return jsonify(msg)
-	
+
+@slackapp.route('/voteonjoke', methods=['POST'])
+def voteonjoke():
+
+	button_event = InteractiveButtonRequest(request)
+
+	error_msg, status_code = button_event.validate_request(
+		verification_token=pybot.verification, team_id=pybot.team_id, 
+		callback_id='voteonjoke')
+
+	# Takes the original message, deletes the buttons so they can't 
+	# vote on the same joke twice, then updates the old message
+	# in place.
+	button_event.return_message['attachments'][0].pop('actions')
+	button_event.return_message['attachments'].append({'text': 'Thanks for voting! \
+	At some point I\'ll get around to using this to help improve your joke experience.'})
+	response = pybot.update_message(
+		channel_id=button_event.channel_id, ts=button_event.message_ts, 
+		message=button_event.return_message, response_type='EPHEMERAL')
+	# print('response is {}'.format(response))
+	return Response(), 200
 
 @slackapp.route('/listening', methods=['GET', 'POST'])
 def listening():
@@ -127,6 +147,10 @@ def listening():
 	# When initially installing your app (if you use events)
 	# Slack will send a challenge parameter to make sure
 	# your app responds. This handles that.
+
+	# Ensures to check if its not none, otherwise
+	# your app will error out trying to iterate
+	# over something that isn't iterable
 	if request.get_json() is not None:
 		if "challenge" in request.get_json():
 			return make_response(request.get_json()["challenge"], 200, 
@@ -170,8 +194,8 @@ def listening():
 		if 'help' in request.form.get('text').lower():
 			help_text = (
 			"This is the help message for reviewing price requests." + 
-			"\nCustomer Rankings do not include inactive customers." + 
-			"\nProbably some other business relevant stuff can go here.")
+			"\nProbably some other business relevant stuff can go here." + 
+			"\nMaybe something like Customer Rankings do not include inactive customers.")
 			
 			help_message = {'text': 'Price Request Help', 'attachments': 
 			[{'attachment_type': 'default', 'text': help_text}]}
@@ -187,27 +211,22 @@ def listening():
 			response_type='CHANNEL', user_id=user_id)
 
 		msg_ts = slack_placeholder_message.get('ts')
+		url = slack_placeholder_message.get('response_url')
 
-		respond_to_price_request(request, pybot, msg_ts, current_app)
+		respond_to_price_request(request, pybot, msg_ts, current_app, response_url=url)
 
-		return
+		return Response(), 200
 
 		# price_message = respond_to_price_request(request, pybot)
 		
 
-	# if request.form.get("command") == "/joke":
+	if request.form.get("command") == "/joke":
 
-	# 	message = pybot.build_joke(random.choice(DAD_JOKES))
-
-	# 	# Putting the sending portion into its own method and API call
-	# 	# so that I can later add async execution and a message broker
-	# 	# to allow for longer than 3 second calculations.
-	# 	# That's going to be useful for style GP stuff that
-	# 	# will be querying ambush and not just relying
-	# 	# on quick internal calculations.
-	# 	sent_message = pybot.send_joke(channel_id, message)
-	# 	print('dir(sent_message) is {}'.format(sent_message.keys()))
-	# 	return Response(), 200
+		message = pybot.build_joke(random.choice(DAD_JOKES))
+		sent_message = pybot.respond(channel_id, message, response_type='EPHEMERAL',
+			user_id=user_id)
+		# sent_message = pybot.send_joke(channel_id, message)
+		return Response(), 200
 
 	# If somehow they send a request for something we aren't listening
 	# for, we can send back some response back.
