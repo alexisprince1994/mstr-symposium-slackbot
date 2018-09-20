@@ -15,6 +15,8 @@ from tests.expected_results import (expected_response_multiple_attributes,
 # I INCORRECTLY THOUGHT THE INSTANCE ID WAS IN THE HEADERS
 # OF THE RESPONSE, AND IT ISN'T. GO THROUGH
 # AND FIX THE TESTS TO LOOK THERE INSTEAD.
+# IN THE MEAN TIME, THE TESTS WILL PASS EVEN
+# THOUGH ITS INCORRECTLY MOCKING THE BEHAVIOR
 
 class TestFilteringReport(unittest.TestCase):
 

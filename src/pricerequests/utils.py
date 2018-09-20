@@ -72,8 +72,8 @@ def respond_to_price_request(req, pybot, msg_ts, current_app, response_url):
 
 	# Indicates the MSTR Cloud instance isn't running.
 	if login_response.status_code == 503:
-		pybot.update_message(channel_id, msg_ts, message=error_msg,
-			user_id=req.form.get('user_id'))
+		pybot.update_message(channel_id, msg_ts, message=error_msg)
+		
 		return None
 		
 
