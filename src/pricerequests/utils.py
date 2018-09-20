@@ -106,9 +106,10 @@ def build_header_ui(pr):
 	formatted_units = format_number(units, '{:,.0f}', '-{:,.0f}')
 	product_name = pr['product_name']
 	request_date = pr['request_date']
+	customer_name = pr['customer_name']
 
-	title = '{} of {} requested on {}'.format(formatted_units, 
-		product_name, request_date)
+	title = '{} of {} requested on {} by {}'.format(formatted_units, 
+		product_name, request_date, customer_name)
 	request_reason = pr['request_reason'] or 'Request Reason not provided.'
 	return {'title': title, 'text': request_reason}
 
