@@ -1,12 +1,13 @@
-import requests
+import os
 from contextlib import contextmanager
 
+import requests
 
-PROJECT_ID = "B7CA92F04B9FAE8D941C3E9B7E0CD754"
-REPORT_ID = "772AB904445FB6AD8BC6CD8F26130049"
-USERNAME = "mstr"
-PASSWORD = "1VBKF0fnHrm2"
-BASE_URL = "https://env-104516.trial.cloud.microstrategy.com/MicroStrategyLibrary/api"
+PROJECT_ID = os.environ.get("MSTR_PROJECT_ID")
+REPORT_ID = os.environ.get("REPORT_ID")
+USERNAME = os.environ.get("MSTR_USERNAME")
+PASSWORD = os.environ.get("MSTR_PASSWORD")
+BASE_URL = os.environ.get("MSTR_BASE_URL")
 
 
 class MicrostrategyBot(object):
@@ -154,8 +155,8 @@ class Report:
     def create(self, session, cookies: dict, view_filter: dict):
 
         """
-		Creates a report instance in the i server.
-		"""
+        Creates a report instance in the i server.
+        """
 
         if self.instance_id is not None:
             return None
