@@ -3,23 +3,24 @@ import json
 import logging
 import os
 
-# Third Party
+import requests
 
 # Third Party
-from flask import jsonify, Response
-import requests
-from zappa.async import task
+from flask import Response, jsonify
 
 # Local
-from src.mstrest.client import MstrClient, Report, FilteringReport
+from src.mstrest.client import FilteringReport, MstrClient, Report
 from src.mstrest.parser import MstrParser
 from src.pyslack.slack_ui import (
-    create_product_analysis,
-    create_customer_analysis,
-    create_slack_price_request,
-    create_action_buttons,
     SlackActionBar,
+    create_action_buttons,
+    create_customer_analysis,
+    create_product_analysis,
+    create_slack_price_request,
 )
+from zappa.async import task
+
+# Third Party
 
 
 logging.basicConfig(level=logging.DEBUG)
@@ -27,12 +28,10 @@ logging.basicConfig(level=logging.DEBUG)
 
 def respond_to_price_request(req, pybot, msg_ts, current_app, response_url):
     """
-	TO DO:
-		REFACTOR THIS MONSTROSITY
-	"""
+    TO DO:
+            REFACTOR THIS MONSTROSITY
+    """
 
-    app_token = current_app.config.get("SLACK_AUTH_TOKEN")
-    base_app_url = current_app.config.get("APP_URL")
     channel_id = req.form.get("channel_id")
 
     # Used as the error message template
@@ -42,7 +41,8 @@ def respond_to_price_request(req, pybot, msg_ts, current_app, response_url):
     }
 
     response = requests.get(
-        base_app_url + "/get", headers={"X-SLACK-AUTH-TOKEN": app_token}
+        current_app.config["APP_URL"] + "/get",
+        headers={"X-SLACK-AUTH-TOKEN": current_app.config["SLACK_AUTH_TOKEN"]},
     )
 
     if response.status_code != 200:
@@ -68,28 +68,22 @@ def respond_to_price_request(req, pybot, msg_ts, current_app, response_url):
             ],
         }
 
-        logging.debug("Slack bots Oauth token is {}".format(pybot.bot_token))
         response = pybot.update_message(channel_id, msg_ts, message=caughtup_message)
-
-        logging.debug(
-            "response from pybot.update_message due to missing a price request is {}".format(
-                response
-            )
-        )
 
         return None
 
     # Initializing the Microstrategy Client
-    MSTR_PROJECT_ID = current_app.config.get("MSTR_PROJECT_ID")
-    MSTR_BASE_URL = current_app.config.get("MSTR_BASE_URL")
-    MSTR_USERNAME = current_app.config.get("MSTR_USERNAME")
-    MSTR_PASSWORD = current_app.config.get("MSTR_PASSWORD")
 
-    mstr = MstrClient(MSTR_PROJECT_ID, MSTR_BASE_URL)
-    login_response = mstr.login(MSTR_USERNAME, MSTR_PASSWORD)
+    mstr = MstrClient(
+        current_app.config["MSTR_PROJECT_ID"], current_app.config["MSTR_BASE_URL"]
+    )
+    login_response = mstr.login(
+        current_app.config["MSTR_USERNAME"], current_app.config["MSTR_PASSWORD"]
+    )
 
     # Indicates the MSTR Cloud instance isn't running.
     if login_response.status_code == 503:
+        # Sends a message to Slack saying MSTR is down, then bails
         pybot.update_message(channel_id, msg_ts, message=error_msg)
 
         return None
@@ -182,10 +176,10 @@ def build_price_report(app_response, *, title=None, text=None):
 def build_product_report(mstr_client, current_app, product):
 
     """
-	Builds the product section of the final price request 
-	for Slack.
+    Builds the product section of the final price request
+    for Slack.
 
-	"""
+    """
 
     MSTR_PRODUCT_REPORT_ID = current_app.config.get("MSTR_PRODUCT_REPORT_ID")
     MSTR_PRODUCT_ATTRIBUTE_NAME = current_app.config.get("MSTR_PRODUCT_ATTRIBUTE_NAME")
@@ -213,10 +207,10 @@ def build_product_report(mstr_client, current_app, product):
 
 def build_customer_report(mstr_client, current_app, customer):
     """
-	Builds the customer section of the final price request 
-	for Slack.
+    Builds the customer section of the final price request
+    for Slack.
 
-	"""
+    """
 
     MSTR_CUSTOMER_ATTRIBUTE_NAME = current_app.config.get(
         "MSTR_CUSTOMER_ATTRIBUTE_NAME"
