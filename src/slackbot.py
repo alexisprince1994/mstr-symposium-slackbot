@@ -1,15 +1,22 @@
-import os
-import time
-from flask import Flask, request, Response, make_response, jsonify, render_template
-from dadjokemessage import DAD_JOKES, InteractiveButtonRequest
-import random
 import json
+import os
+import random
+import time
+
 import bot
 import requests
-
-from mstrest.parser import MstrParser
+from dadjokemessage import DAD_JOKES, InteractiveButtonRequest
+from flask import (
+    Flask,
+    Response,
+    current_app,
+    jsonify,
+    make_response,
+    render_template,
+    request,
+)
 from mstrest.client import MstrClient
-
+from mstrest.parser import MstrParser
 
 # from models import db, Joke, SlackUser, SlackTeam, SlackChannel, SlackUserChannel, ToldJoke, JokeVote, SlackButton
 
@@ -34,9 +41,9 @@ def build_slack_ui(pr, mstr_data):
 @app.route("/install", methods=["GET"])
 def pre_install():
     """
-	This route renders the installation page with the add to slack button.
-	Builds the request we send to slack for the oauth token.
-	"""
+    This route renders the installation page with the add to slack button.
+    Builds the request we send to slack for the oauth token.
+    """
     client_id = pybot.oauth["client_id"]
     scope = pybot.oauth["scope"]
 
@@ -46,16 +53,58 @@ def pre_install():
 @app.route("/thanks", methods=["GET", "POST"])
 def thanks():
     """
-	Called when a user installs the app.
-	Exchanges the temporary auth code slack will
-	send us for the OAuth token for user later.
+    Called when a user installs the app.
+    Exchanges the temporary auth code slack will
+    send us for the OAuth token for user later.
 
-	OAuth token is used when not directly responding to requests.
-	If we want to send back a "hey I'm working on this" message,
-	that won't require the token since Slack is already listening for the server's reponse,
-	but sending back a response that requires > 3 seconds to generate 
-	will require it since that'll be done async. 
-	"""
+    OAuth token is used when not directly responding to requests.
+    If we want to send back a "hey I'm working on this" message,
+    that won't require the token since Slack is already listening for the server's reponse,
+    but sending back a response that requires > 3 seconds to generate
+    will require it since that'll be done async.
+    """
+
+    code_arg = request.args.get("code")
+
+    pybot.auth(code_arg)
+    return render_template("thanks.html")
+
+
+@app.route("/install", methods=["GET"])
+def pre_install():
+    """
+    This route renders the installation page with the add to slack button.
+    Builds the request we send to slack for the oauth token.
+    """
+    client_id = pybot.oauth["client_id"]
+    scope = pybot.oauth["scope"]
+
+
+@app.route("/install", methods=["GET"])
+def pre_install():
+    """
+    This route renders the installation page with the add to slack button.
+    Builds the request we send to slack for the oauth token.
+    """
+    client_id = pybot.oauth["client_id"]
+    scope = pybot.oauth["scope"]
+
+    return render_template("install.html", client_id=client_id, scope=scope)
+
+
+@app.route("/thanks", methods=["GET", "POST"])
+def thanks():
+    """
+    Called when a user installs the app.
+    Exchanges the temporary auth code slack will
+    send us for the OAuth token for user later.
+
+    OAuth token is used when not directly responding to requests.
+    If we want to send back a "hey I'm working on this" message,
+    that won't require the token since Slack is already listening for the server's reponse,
+    but sending back a response that requires > 3 seconds to generate
+    will require it since that'll be done async.
+    """
 
     code_arg = request.args.get("code")
 
@@ -87,9 +136,10 @@ def pricerequest():
     if form.get("command") in ["/pricerequest", "/pr"]:
 
         pr = PriceRequest()
-        req_url = "https://mstr-symposium-demo.herokuapp.com/api/pricerequest/get"
-        app_token = os.environ.get("SLACK_AUTH_TOKEN") or "MY_HARD_TO_GUESS_SLACK_TOKEN"
-        app_data = pr.get_next_price_request(req_url, app_token)
+        req_url = current_app.config["APP_URL"] + "/pricerequest/get"
+        app_data = pr.get_next_price_request(
+            req_url, current_app.config["SLACK_AUTH_TOKEN"]
+        )
 
         if app_data.json().get("error") is not None:
             return make_response("No outstanding price requests!", 200)
@@ -113,8 +163,9 @@ def pricerequest():
 def voteonjoke():
 
     """
-	Handles a user clicking on an interactive message in Slack.
-	"""
+
+    Handles a user clicking on an interactive message in Slack.
+    """
 
     button_event = InteractiveButtonRequest(request)
     # print('the requests payload is {}'.format(button_event.payload))
@@ -183,11 +234,12 @@ def voteonjoke():
 @app.route("/listening", methods=["GET", "POST"])
 def hears():
     """
-	This route listens for incoming slash commands
-	from Slack. I will eventually put an event handler
-	if I start handling more than 1 event. 
-	Otherwise its overkill.
-	"""
+
+    This route listens for incoming slash commands
+    from Slack. I will eventually put an event handler
+    if I start handling more than 1 event.
+    Otherwise its overkill.
+    """
 
     # prints out the form data from the request
     # slack sends us. I keep this here because

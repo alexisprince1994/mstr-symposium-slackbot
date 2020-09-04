@@ -5,6 +5,9 @@ zappa_settings.json
 .vscode
 .idea
 
+# Holds secrets
+.env
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
